@@ -1,0 +1,70 @@
+---
+import appIcon from '../assets/app-icon.svg';
+import { links } from '../../site.config.mjs';
+---
+
+<footer class="foot">
+	<div class="wrap inner">
+		<div class="brand">
+			<img src={appIcon.src} alt="" width="36" height="36" />
+			<div>
+				<div class="name">Kivo</div>
+				<div class="tag">Self-hosted media server</div>
+			</div>
+		</div>
+		<nav aria-label="Footer" class="links">
+			<a href={links.docs}>Docs</a>
+			<a href={links.blog}>Blog</a>
+			<a href={links.discord}>Discord</a>
+			<a href={links.github}>GitHub</a>
+			<a href={links.download}>Download</a>
+		</nav>
+	</div>
+</footer>
+
+<style>
+	.foot {
+		border-top: 1px solid var(--raised);
+	}
+	.inner {
+		padding-top: 40px;
+		padding-bottom: 56px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+	}
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+	}
+	.brand img {
+		width: 36px;
+		height: 36px;
+		border-radius: 9px;
+		display: block;
+	}
+	.name {
+		font-size: 15px;
+		font-weight: 600;
+	}
+	.tag {
+		font-size: 13px;
+		color: var(--muted);
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 28px;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.links a {
+		color: var(--muted);
+	}
+	.links a:hover {
+		color: var(--text);
+	}
+</style>

@@ -1,0 +1,60 @@
+---
+import lockup from '../assets/lockup.svg';
+import { links } from '../../site.config.mjs';
+---
+
+<nav class="nav" aria-label="Main">
+	<a href="/" aria-label="Kivo home"><img src={lockup.src} alt="Kivo" width="101" height="28" class="logo" /></a>
+	<div class="right">
+		<div class="links">
+			<a href={links.docs}>Docs</a>
+			<a href={links.blog}>Blog</a>
+			<a href={links.discord}>Discord</a>
+			<a href={links.github}>GitHub</a>
+		</div>
+		<a class="btn btn-primary download" href={links.download}>Download</a>
+	</div>
+</nav>
+
+<style>
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		height: 80px;
+	}
+	.logo {
+		height: 28px;
+		width: auto;
+		display: block;
+	}
+	.right {
+		display: flex;
+		align-items: center;
+		gap: 32px;
+	}
+	.links {
+		display: flex;
+		gap: 28px;
+		font-size: 15px;
+		font-weight: 500;
+	}
+	.links a {
+		color: var(--muted);
+	}
+	.links a:hover {
+		color: var(--text);
+	}
+	.download {
+		height: 40px;
+		padding: 0 18px;
+		border-radius: 10px;
+		font-size: 14px;
+	}
+	@media (max-width: 720px) {
+		.links {
+			display: none;
+		}
+	}
+</style>

@@ -1,0 +1,744 @@
+---
+import Base from '../layouts/Base.astro';
+import mark from '../assets/mark.svg';
+import { links, docker } from '../../site.config.mjs';
+
+// Abstract poster art for the device mockups.
+const grounds = ['#2a2f45', '#4a2c2a', '#1f3b3a', '#3d3350', '#5a4632', '#22303f', '#4b2f3f', '#2f3d2a', '#38404f', '#5b3a2e', '#263a4a', '#41324a'];
+const inks = ['#c9a46a', '#e07a5f', '#8fb8b0', '#b7a3d9', '#d9c3a0', '#8b9cff', '#e3b5c4', '#a9c18f', '#cfd6e6', '#f2a65a', '#9ec5e0', '#d4b8e8'];
+const shapes = ['disc', 'band', 'arch', 'slab'];
+function posters(n: number, seed: number) {
+	return Array.from({ length: n }, (_, i) => {
+		const j = i + seed;
+		return { bg: grounds[(j * 5) % 12], shape: shapes[(j + Math.floor(j / 4)) % 4], ink: inks[(j * 7 + 3) % 12] };
+	});
+}
+const tvRow = posters(7, 0);
+const tabletGrid = posters(9, 3);
+
+const dockerRun = `docker run -d --name kivo \\
+  -p 8484:8484 \\
+  -v /path/to/config:/config \\
+  -v /path/to/media:/media \\
+  ${docker.image}`;
+---
+
+<Base
+	title="Kivo: open-source streaming for the media you own"
+	description="No cloud login, no ads, no telemetry. Kivo runs on your computer or NAS and plays on your phone, TV and browser."
+>
+	<main class="wrap">
+		<header class="hero">
+			<h1>Open-source streaming for the media you own.</h1>
+			<p class="sub">No cloud login, no ads, no telemetry. Kivo runs on your computer or NAS and plays on your phone, TV and browser.</p>
+			<div class="ctas">
+				<a class="btn btn-primary cta" href={links.download}>
+					<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
+					Download
+				</a>
+				<a class="btn btn-ghost cta" href={links.docs}>Docs</a>
+			</div>
+
+			<div class="devices" aria-hidden="true">
+				<div class="tv">
+					<div class="tv-frame">
+						<div class="tv-screen">
+							<div class="tv-hero">
+								<div class="tv-sun"></div>
+								<div class="tv-ground"></div>
+								<div class="tv-fade"></div>
+								<img src={mark.src} alt="" class="tv-mark" />
+								<div class="bar" style="left:5%;top:34%;width:30%;height:7%;background:#eceef2"></div>
+								<div class="bar" style="left:5%;top:47%;width:22%;height:3%;background:#9da3af"></div>
+								<div class="bar" style="left:5%;top:53%;width:26%;height:3%;background:#6d7380"></div>
+								<div class="bar pill" style="left:5%;top:66%;width:11%;height:11%;background:#8b9cff"></div>
+							</div>
+							<div class="tv-row">
+								{tvRow.map((p) => <div class="poster" style={`background:${p.bg}`}><div class={p.shape} style={`background:${p.ink}`}></div></div>)}
+							</div>
+						</div>
+					</div>
+					<div class="tv-stand"></div>
+				</div>
+
+				<div class="tablet">
+					<div class="tablet-frame">
+						<div class="tablet-screen">
+							<div class="tablet-top">
+								<div style="width:38%;background:#eceef2"></div>
+								<div style="width:18%;background:#2c303b"></div>
+							</div>
+							<div class="tablet-grid">
+								{tabletGrid.map((p) => <div class="poster" style={`background:${p.bg}`}><div class={p.shape} style={`background:${p.ink}`}></div></div>)}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="phone">
+					<div class="phone-frame">
+						<div class="phone-screen">
+							<div class="cover"><div class="ring"></div></div>
+							<div class="line" style="width:80%;height:7px;background:#eceef2"></div>
+							<div class="line" style="width:54%;height:5px;margin-top:-4%;background:#6d7380"></div>
+							<div class="progress"><div></div></div>
+							<div class="controls">
+								<div class="ctl"></div>
+								<div class="ctl play"></div>
+								<div class="ctl"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<section class="apps" aria-labelledby="apps-title">
+			<div class="center">
+				<h2 id="apps-title">Apps</h2>
+				<p class="lede">Watch progress is stored on your server, so you can stop in one app and resume in another.</p>
+			</div>
+
+			<h3 class="group">Available now</h3>
+			<ul class="grid">
+				<li class="app">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b9cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2.5" width="12" height="17" rx="2"></rect><rect x="13" y="9" width="8" height="12.5" rx="1.6" fill="#1a1c23"></rect><path d="M16.2 19h1.6"></path></svg>
+					<div class="app-name">iPhone &amp; iPad</div>
+				</li>
+				<li class="app">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b9cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M10.5 8.5v5l4-2.5z"></path><path d="M8 21h8"></path></svg>
+					<div><div class="app-name">Android TV &amp; Google TV</div><div class="app-note">Also on Fire TV</div></div>
+				</li>
+				<li class="app">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b9cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 9h20"></path><path d="M5.5 6.5h.01M8 6.5h.01"></path></svg>
+					<div class="app-name">Web</div>
+				</li>
+				<li class="app">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b9cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M7 21l2-4M17 21l-2-4"></path></svg>
+					<div class="app-name">Samsung Smart TV</div>
+				</li>
+			</ul>
+
+			<h3 class="group soon-title">Coming soon</h3>
+			<ul class="grid">
+				<li class="app soon">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M11 18.5h2"></path></svg>
+					<div><div class="app-name">Android</div><div class="app-note">Phones and tablets</div></div>
+				</li>
+				<li class="app soon">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="1.5"></rect><path d="M12 17v3M8 21h8"></path></svg>
+					<div class="app-name">LG Smart TV</div>
+				</li>
+				<li class="app soon">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="8.5" rx="2.5"></rect><path d="M8 20h8"></path></svg>
+					<div class="app-name">Apple TV</div>
+				</li>
+				<li class="app soon">
+					<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5A2.5 2.5 0 0 1 5.5 7h13A2.5 2.5 0 0 1 21 9.5v5a2.5 2.5 0 0 1-2.5 2.5h-3.2l-2-2.4h-2.6l-2 2.4H5.5A2.5 2.5 0 0 1 3 14.5z"></path></svg>
+					<div><div class="app-name">VR</div><div class="app-note">Meta Quest, SteamVR</div></div>
+				</li>
+			</ul>
+		</section>
+
+		<section class="server-wrap" aria-labelledby="server-title">
+			<div class="server">
+				<div class="server-text">
+					<h2 id="server-title">Server</h2>
+					<p class="lede-left">Install the server on the computer or NAS that has your media files.</p>
+					<ul class="platforms">
+						<li class="platform on">
+							<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8b9cff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5l-9-5-9 5v9l9 5 9-5z"></path><path d="M3 7.5l9 5 9-5M12 12.5v9"></path></svg>
+							<div class="p-name">Docker</div>
+							<div class="p-state ok">Available</div>
+						</li>
+						<li class="platform">
+							<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"></rect><path d="M7 10l3 2.2L7 14.4M12.5 15H17"></path></svg>
+							<div class="p-name">Linux</div>
+							<div class="p-state">Coming soon</div>
+						</li>
+						<li class="platform">
+							<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9da3af" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 6a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v10h-15z"></path><path d="M2 19h20"></path></svg>
+							<div class="p-name">Windows</div>
+							<div class="p-state">Coming soon</div>
+						</li>
+					</ul>
+				</div>
+				<div class="server-code">
+					<div class="terminal">
+						<div class="term-bar">
+							<span>docker run</span>
+							<button type="button" class="copy" data-copy={dockerRun}>Copy</button>
+						</div>
+						<div class="term-body">
+							<pre><span class="cmd">docker</span>{dockerRun.slice('docker'.length)}</pre>
+						</div>
+					</div>
+					<p class="then">Then open <code>http://your-server:8484</code> in a browser to finish setup. <a href="/docs/getting-started/">Install guide</a></p>
+				</div>
+			</div>
+		</section>
+	</main>
+</Base>
+
+<script>
+	for (const button of document.querySelectorAll<HTMLButtonElement>('button[data-copy]')) {
+		button.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText(button.dataset.copy ?? '');
+				button.textContent = 'Copied';
+			} catch {
+				button.textContent = 'Press Ctrl+C';
+			}
+			setTimeout(() => (button.textContent = 'Copy'), 2000);
+		});
+	}
+</script>
+
+<style>
+	/* Hero */
+	.hero {
+		padding: 88px 0 0;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	h1 {
+		margin: 0;
+		max-width: 880px;
+		font-size: 58px;
+		line-height: 1.07;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+	.sub {
+		margin: 24px 0 0;
+		max-width: 580px;
+		font-size: 19px;
+		line-height: 1.55;
+		color: var(--text-body);
+	}
+	.ctas {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 12px;
+		margin-top: 36px;
+	}
+	.cta {
+		height: 52px;
+		padding: 0 28px;
+		font-size: 16px;
+	}
+
+	/* Device composition */
+	.devices {
+		position: relative;
+		width: 100%;
+		max-width: 1080px;
+		aspect-ratio: 1080 / 600;
+		margin-top: 72px;
+	}
+	.poster {
+		position: relative;
+		aspect-ratio: 2 / 3;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+	.poster > div {
+		position: absolute;
+	}
+	.disc {
+		left: 20%;
+		top: 16%;
+		width: 60%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		opacity: 0.85;
+	}
+	.band {
+		left: 0;
+		right: 0;
+		bottom: 34%;
+		height: 20%;
+		opacity: 0.7;
+	}
+	.arch {
+		left: 16%;
+		right: 16%;
+		bottom: 26%;
+		height: 46%;
+		border-radius: 999px 999px 0 0;
+		opacity: 0.75;
+	}
+	.slab {
+		right: -12%;
+		top: 10%;
+		width: 72%;
+		height: 44%;
+		transform: rotate(-12deg);
+		opacity: 0.6;
+	}
+
+	.tv {
+		position: absolute;
+		left: 12%;
+		top: 0;
+		width: 76%;
+	}
+	.tv-frame {
+		aspect-ratio: 16 / 9;
+		border-radius: 14px;
+		background: #050608;
+		padding: 1.2%;
+		box-shadow: 0 30px 80px #000000cc;
+		border: 1px solid var(--hover);
+	}
+	.tv-screen {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		border-radius: 6px;
+		overflow: hidden;
+		background: var(--bg-deep);
+	}
+	.tv-hero {
+		position: absolute;
+		inset: 0 0 42% 0;
+		background: #22303f;
+		overflow: hidden;
+	}
+	.tv-sun {
+		position: absolute;
+		right: 8%;
+		top: 12%;
+		width: 34%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: #f2a65a;
+		opacity: 0.85;
+	}
+	.tv-ground {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 32%;
+		background: #1a2533;
+	}
+	.tv-fade {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, #0d0e12 0%, #0d0e12b3 38%, #0d0e1200 70%);
+	}
+	.tv-mark {
+		position: absolute;
+		left: 5%;
+		top: 9%;
+		width: 4.2%;
+		display: block;
+	}
+	.bar {
+		position: absolute;
+		border-radius: 4px;
+	}
+	.bar.pill {
+		border-radius: 9999px;
+	}
+	.tv-row {
+		position: absolute;
+		left: 5%;
+		right: -6%;
+		bottom: 7%;
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 1.4%;
+	}
+	.tv-stand {
+		margin: 0 auto;
+		width: 18%;
+		height: 14px;
+		background: var(--raised);
+		border-radius: 0 0 6px 6px;
+	}
+
+	.tablet {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 25%;
+	}
+	.tablet-frame {
+		aspect-ratio: 3 / 4;
+		border-radius: 22px;
+		background: #050608;
+		padding: 5%;
+		border: 1px solid var(--border);
+		box-shadow: 0 24px 60px #000000d9;
+	}
+	.tablet-screen {
+		width: 100%;
+		height: 100%;
+		border-radius: 10px;
+		overflow: hidden;
+		background: var(--bg-deep);
+		padding: 8% 7%;
+		display: flex;
+		flex-direction: column;
+		gap: 6%;
+	}
+	.tablet-top {
+		display: flex;
+		gap: 6%;
+		align-items: center;
+	}
+	.tablet-top div {
+		height: 7px;
+		border-radius: 4px;
+	}
+	.tablet-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.phone {
+		position: absolute;
+		right: 3%;
+		bottom: 0;
+		width: 14%;
+	}
+	.phone-frame {
+		aspect-ratio: 9 / 19;
+		border-radius: 26px;
+		background: #050608;
+		padding: 6%;
+		border: 1px solid var(--border);
+		box-shadow: 0 24px 60px #000000d9;
+	}
+	.phone-screen {
+		width: 100%;
+		height: 100%;
+		border-radius: 18px;
+		overflow: hidden;
+		background: var(--surface);
+		padding: 18% 10% 10%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 7%;
+	}
+	.cover {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 8px;
+		overflow: hidden;
+		background: #41324a;
+	}
+	.ring {
+		position: absolute;
+		left: 18%;
+		top: 18%;
+		width: 64%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		border: 8px solid #d4b8e8;
+	}
+	.line {
+		border-radius: 4px;
+	}
+	.progress {
+		width: 100%;
+		height: 3px;
+		border-radius: 2px;
+		background: #ffffff40;
+		position: relative;
+	}
+	.progress div {
+		position: absolute;
+		inset: 0 58% 0 0;
+		border-radius: 2px;
+		background: var(--accent);
+	}
+	.controls {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 14%;
+		width: 100%;
+	}
+	.ctl {
+		width: 14%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		border: 2px solid var(--muted);
+	}
+	.ctl.play {
+		width: 30%;
+		border: 0;
+		background: var(--text);
+	}
+
+	/* Apps */
+	.apps {
+		padding: 128px 0 32px;
+	}
+	.center {
+		text-align: center;
+	}
+	h2 {
+		margin: 0;
+		font-size: 44px;
+		line-height: 1.1;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+	}
+	.lede {
+		margin: 14px auto 0;
+		max-width: 520px;
+		font-size: 18px;
+		line-height: 1.6;
+		color: var(--muted);
+	}
+	.group {
+		margin: 56px 0 16px;
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--muted);
+		text-align: center;
+	}
+	.soon-title {
+		margin-top: 40px;
+	}
+	.grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 12px;
+	}
+	.app {
+		padding: 28px 18px 22px;
+		border-radius: 16px;
+		background: var(--card);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		text-align: center;
+	}
+	.app.soon {
+		background: none;
+		border: 1px dashed var(--border);
+	}
+	.app-name {
+		font-size: 15px;
+		font-weight: 600;
+	}
+	.soon .app-name {
+		color: var(--text-soft);
+	}
+	.app-note {
+		margin-top: 4px;
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	/* Server */
+	.server-wrap {
+		padding: 96px 0 128px;
+	}
+	.server {
+		border-radius: 24px;
+		background: var(--card);
+		padding: 48px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 40px 56px;
+	}
+	.server-text {
+		flex: 1 1 300px;
+		min-width: 0;
+	}
+	.server h2 {
+		font-size: 36px;
+		line-height: 1.12;
+	}
+	.lede-left {
+		margin: 14px 0 0;
+		font-size: 17px;
+		line-height: 1.6;
+		color: var(--muted);
+	}
+	.platforms {
+		list-style: none;
+		padding: 0;
+		margin: 28px 0 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 10px;
+	}
+	.platform {
+		padding: 16px 12px;
+		border-radius: 12px;
+		background: var(--surface);
+		text-align: center;
+	}
+	.platform.on {
+		background: var(--hover);
+		border: 1px solid var(--accent);
+	}
+	.p-name {
+		margin-top: 8px;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--text-soft);
+	}
+	.on .p-name {
+		color: var(--text);
+	}
+	.p-state {
+		margin-top: 2px;
+		font-size: 12px;
+		color: var(--muted);
+	}
+	.p-state.ok {
+		color: var(--success);
+	}
+	.server-code {
+		flex: 1.4 1 440px;
+		min-width: 0;
+		align-self: center;
+	}
+	.terminal {
+		border-radius: 14px;
+		background: var(--bg-deep);
+		border: 1px solid var(--hover);
+		overflow: hidden;
+	}
+	.term-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px 12px 10px 20px;
+		border-bottom: 1px solid var(--hover);
+		font-size: 13px;
+		color: var(--muted);
+	}
+	.copy {
+		height: 32px;
+		padding: 0 12px;
+		border-radius: 8px;
+		border: 1px solid var(--border);
+		background: var(--raised);
+		color: var(--text);
+		font: inherit;
+		font-size: 13px;
+		font-weight: 500;
+		cursor: pointer;
+	}
+	.copy:hover {
+		background: var(--hover);
+	}
+	.term-body {
+		overflow-x: auto;
+	}
+	pre {
+		margin: 0;
+		padding: 22px 20px;
+		font-family: var(--mono);
+		font-size: 14px;
+		line-height: 1.8;
+		color: var(--text);
+	}
+	.cmd {
+		color: var(--accent);
+	}
+	.then {
+		margin: 14px 0 0;
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--muted);
+	}
+	.then code {
+		font-family: var(--mono);
+		color: var(--text);
+	}
+	.then a {
+		color: var(--accent);
+	}
+
+	@media (max-width: 720px) {
+		.hero {
+			padding-top: 56px;
+		}
+		h1 {
+			font-size: 42px;
+		}
+		.sub {
+			font-size: 17px;
+		}
+		.devices {
+			margin-top: 56px;
+		}
+		.tablet-frame {
+			border-radius: 12px;
+		}
+		.tablet-screen {
+			border-radius: 6px;
+		}
+		.tablet-grid {
+			gap: 3px;
+		}
+		.tablet-top div {
+			height: 4px;
+		}
+		.phone-frame {
+			border-radius: 12px;
+		}
+		.phone-screen {
+			border-radius: 8px;
+		}
+		.ring {
+			border-width: 3px;
+		}
+		.line {
+			height: 3px !important;
+		}
+		.ctl {
+			border-width: 1px;
+		}
+		.tv-frame {
+			border-radius: 8px;
+		}
+		.tv-stand {
+			height: 8px;
+		}
+		.poster {
+			border-radius: 2px;
+		}
+		.apps {
+			padding-top: 88px;
+		}
+		h2 {
+			font-size: 36px;
+		}
+		.server-wrap {
+			padding: 72px 0 88px;
+		}
+		.server {
+			padding: 24px;
+		}
+		.server-code {
+			flex-basis: 100%;
+		}
+		pre {
+			font-size: 13px;
+		}
+	}
+</style>

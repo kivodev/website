@@ -1,0 +1,73 @@
+/* Starlight theme mapped to Kivo's design tokens (shared/tokens.json in kivodev/kivo). */
+:root {
+	--sl-font: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	--sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+	--sl-color-white: #eceef2;
+	--sl-color-gray-1: #eceef2;
+	--sl-color-gray-2: #c4c8d0;
+	--sl-color-gray-3: #9da3af;
+	--sl-color-gray-4: #6d7380;
+	--sl-color-gray-5: #2c303b;
+	--sl-color-gray-6: #15171d;
+	--sl-color-black: #101116;
+
+	--sl-color-accent-low: #262d55;
+	--sl-color-accent: #8b9cff;
+	--sl-color-accent-high: #c5ceff;
+
+	--sl-color-bg-nav: #101116;
+	--sl-color-bg-sidebar: #101116;
+	--sl-color-hairline: #1d2028;
+	--sl-color-hairline-light: #2c303b;
+}
+
+:root[data-theme='light'] {
+	--sl-color-white: #14161b;
+	--sl-color-gray-1: #14161b;
+	--sl-color-gray-2: #2f333b;
+	--sl-color-gray-3: #555b67;
+	--sl-color-gray-4: #7c8290;
+	--sl-color-gray-5: #d9dce3;
+	--sl-color-gray-6: #eceef2;
+	--sl-color-gray-7: #f6f7f9;
+	--sl-color-black: #ffffff;
+
+	--sl-color-accent-low: #dfe3ff;
+	--sl-color-accent: #3f51d9;
+	--sl-color-accent-high: #2a389e;
+
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-bg-sidebar: #ffffff;
+	--sl-color-hairline: #eceef2;
+	--sl-color-hairline-light: #d9dce3;
+}
+
+.site-title img {
+	height: 1.75rem;
+}
+
+/* Let long API paths wrap on narrow screens instead of scrolling inside the header. */
+div.sl-openapi-operation-method div.sl-openapi-operation-method-path {
+	overflow-x: visible;
+	overflow-wrap: anywhere;
+	min-width: 0;
+}
+
+/* On phones, put the code sample picker on its own row so the path has the full width. */
+@media (max-width: 36rem) {
+	div.sl-openapi-operation-description .sl-openapi-operation-description-header:has(sl-openapi-snippet-picker) {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 0.6rem;
+	}
+	div.sl-openapi-operation-description .sl-openapi-operation-description-header:has(.sl-openapi-operation-description-button):has(sl-openapi-snippet-picker) {
+		grid-template-columns: max-content minmax(0, 1fr);
+	}
+	div.sl-openapi-operation-description .sl-openapi-operation-description-header sl-openapi-snippet-picker {
+		grid-column: 1 / -1;
+		justify-self: start;
+	}
+	div.sl-openapi-operation-method {
+		align-items: center;
+	}
+}

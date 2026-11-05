@@ -1,0 +1,81 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/blog';
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={`${post.data.title} | Kivo`} description={post.data.description}>
+	<main class="wrap page">
+		<a class="back" href="/blog/">Blog</a>
+		<h1>{post.data.title}</h1>
+		<time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+		<article class="prose"><Content /></article>
+	</main>
+</Base>
+
+<style>
+	.page {
+		max-width: 720px;
+		padding-top: 72px;
+		padding-bottom: 128px;
+	}
+	.back {
+		font-size: 14px;
+		color: var(--accent);
+	}
+	h1 {
+		margin: 16px 0 0;
+		font-size: 44px;
+		line-height: 1.1;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		text-wrap: balance;
+	}
+	time {
+		display: block;
+		margin-top: 12px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+	.prose {
+		margin-top: 40px;
+		font-size: 17px;
+		line-height: 1.7;
+		color: var(--text-body);
+	}
+	.prose :global(a) {
+		color: var(--accent);
+	}
+	.prose :global(a:hover) {
+		color: var(--accent-hover);
+	}
+	.prose :global(h2) {
+		margin: 2em 0 0.5em;
+		font-size: 26px;
+		line-height: 1.25;
+		color: var(--text);
+	}
+	.prose :global(code) {
+		font-family: var(--mono);
+		font-size: 0.9em;
+	}
+	.prose :global(pre) {
+		padding: 16px 20px;
+		border-radius: 12px;
+		background: var(--bg-deep);
+		overflow-x: auto;
+	}
+	@media (max-width: 720px) {
+		h1 {
+			font-size: 34px;
+		}
+	}
+</style>

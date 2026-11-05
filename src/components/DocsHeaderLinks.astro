@@ -1,0 +1,20 @@
+---
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import { links } from '../../site.config.mjs';
+---
+
+<a class="text-link" href={links.blog}>Blog</a>
+<a class="text-link" href={links.download}>Download</a>
+<Default />
+
+<style>
+	.text-link {
+		color: var(--sl-color-gray-2);
+		font-size: var(--sl-text-sm);
+		font-weight: 500;
+		text-decoration: none;
+	}
+	.text-link:hover {
+		color: var(--sl-color-white);
+	}
+</style>
