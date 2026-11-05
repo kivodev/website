@@ -3,8 +3,6 @@ name: Deploy
 on:
   push:
     branches: [main]
-  repository_dispatch:
-    types: [openapi-changed]
   schedule:
     - cron: '17 6 * * *'
   workflow_dispatch:
@@ -22,8 +20,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # The commit kivodev/kivo sends with openapi-changed; other builds read main.
-      KIVO_OPENAPI_REF: ${{ github.event.client_payload.sha || 'main' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

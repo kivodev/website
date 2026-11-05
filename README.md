@@ -24,15 +24,14 @@ npm run preview    # serves dist/
 `.github/workflows/deploy.yml` builds the site and deploys it to GitHub Pages:
 
 - on every push to `main`,
-- when kivodev/kivo sends a `repository_dispatch` event of type `openapi-changed`,
-- nightly, and
+- nightly, which picks up API changes, and
 - by hand from the Actions tab.
 
 `public/CNAME` sets the domain to `kivo.watch`.
 
 ## The API reference
 
-`scripts/fetch-openapi.mjs` downloads `server/internal/api/openapi.yaml` from kivodev/kivo to `.openapi/kivo.yaml` before each build and dev server start. It reads `main`, or the commit in `KIVO_OPENAPI_REF` when set. The deploy sets that to the `sha` in the `openapi-changed` dispatch payload, so a spec change on kivodev/kivo's `main` rebuilds the site from that exact commit.
+`scripts/fetch-openapi.mjs` downloads `server/internal/api/openapi.yaml` from kivodev/kivo to `.openapi/kivo.yaml` before each build and dev server start. It reads `main`, or the commit in `KIVO_OPENAPI_REF` when set.
 
 starlight-openapi names each sidebar group after a spec tag. The script renames the tags to the display names in `openapi.tagNames` in `site.config.mjs`; a new tag shows up under its own name until it's added there.
 
