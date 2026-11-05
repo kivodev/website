@@ -13,20 +13,29 @@ export const docker = {
 	image: 'ghcr.io/kivodev/kivo:latest',
 };
 
-// Where the API reference spec comes from.
-//   vendored: src/content/openapi/kivo.yaml, committed to this repo (the default)
-//   remote:   fetched from the main repo by scripts/fetch-openapi.mjs before each build
-// Set KIVO_OPENAPI_SOURCE=remote (locally, or as a repository variable for the deploy
-// workflow) once kivodev/kivo is public.
-export const openapi = {
-	source: process.env.KIVO_OPENAPI_SOURCE === 'remote' ? 'remote' : 'vendored',
-	remoteUrl:
-		process.env.KIVO_OPENAPI_URL ??
-		'https://raw.githubusercontent.com/kivodev/kivo/main/server/internal/api/openapi.yaml',
-	vendoredPath: 'src/content/openapi/kivo.yaml',
-	fetchedPath: '.openapi/kivo.yaml',
-};
+// The API reference spec, fetched from the main repo by scripts/fetch-openapi.mjs before
+// each build. KIVO_OPENAPI_REF picks the commit, branch or tag to read it from.
+const openapiRef = process.env.KIVO_OPENAPI_REF || 'main';
 
-export function openapiSchemaPath() {
-	return openapi.source === 'remote' ? openapi.fetchedPath : openapi.vendoredPath;
-}
+export const openapi = {
+	url: `https://raw.githubusercontent.com/kivodev/kivo/${openapiRef}/server/internal/api/openapi.yaml`,
+	path: '.openapi/kivo.yaml',
+	// Sidebar group names for the spec's tags. Tags not listed keep their own name.
+	tagNames: {
+		setup: 'Setup',
+		sessions: 'Sessions',
+		'api-keys': 'API keys',
+		users: 'Users',
+		libraries: 'Libraries',
+		works: 'Works',
+		files: 'Files',
+		tasks: 'Tasks',
+		plays: 'Playback',
+		history: 'Watch history',
+		downloads: 'Downloads',
+		media: 'Media',
+		images: 'Images',
+		events: 'Live events',
+		health: 'Health',
+	},
+};

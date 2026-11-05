@@ -1,24 +1,34 @@
-// Fetches the API spec from the main repo when KIVO_OPENAPI_SOURCE=remote.
-// With the default (vendored) it does nothing and the build uses the committed copy.
+// Fetches the API spec from the main repo and renames its tags to the sidebar group
+// names in site.config.mjs, since starlight-openapi labels each group with the tag name.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { parseDocument } from 'yaml';
 import { openapi } from '../site.config.mjs';
 
-if (openapi.source !== 'remote') {
-	console.log(`openapi: using the vendored spec at ${openapi.vendoredPath}`);
-	process.exit(0);
+const res = await fetch(openapi.url);
+if (!res.ok) {
+	console.error(`openapi: fetching ${openapi.url} failed with ${res.status} ${res.statusText}`);
+	process.exit(1);
+}
+const doc = parseDocument(await res.text());
+if (!/^3\./.test(String(doc.get('openapi')))) {
+	console.error(`openapi: ${openapi.url} did not return an OpenAPI 3 document`);
+	process.exit(1);
 }
 
-const res = await fetch(openapi.remoteUrl);
-if (!res.ok) {
-	console.error(`openapi: fetching ${openapi.remoteUrl} failed with ${res.status} ${res.statusText}`);
-	process.exit(1);
+const rename = (name) => openapi.tagNames[name] ?? name;
+for (const tag of doc.get('tags')?.items ?? []) {
+	tag.set('name', rename(tag.get('name')));
 }
-const text = await res.text();
-if (!/^openapi:\s*3\./m.test(text)) {
-	console.error(`openapi: ${openapi.remoteUrl} did not return an OpenAPI 3 document`);
-	process.exit(1);
+for (const pathItem of doc.get('paths')?.items ?? []) {
+	for (const operation of pathItem.value?.items ?? []) {
+		const tags = operation.value?.get?.('tags');
+		if (tags?.items) {
+			tags.items = tags.items.map((tag) => doc.createNode(rename(tag.value ?? tag)));
+		}
+	}
 }
-await mkdir(dirname(openapi.fetchedPath), { recursive: true });
-await writeFile(openapi.fetchedPath, text);
-console.log(`openapi: fetched ${openapi.remoteUrl} to ${openapi.fetchedPath}`);
+
+await mkdir(dirname(openapi.path), { recursive: true });
+await writeFile(openapi.path, doc.toString({ lineWidth: 0 }));
+console.log(`openapi: fetched ${openapi.url} to ${openapi.path}`);

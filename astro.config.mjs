@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightOpenAPI, { openAPISidebarGroups } from 'starlight-openapi';
-import { links, openapiSchemaPath } from './site.config.mjs';
+import { links, openapi } from './site.config.mjs';
 
 export default defineConfig({
 	site: 'https://kivo.watch',
@@ -32,7 +32,7 @@ export default defineConfig({
 				starlightOpenAPI([
 					{
 						base: 'docs/api',
-						schema: openapiSchemaPath(),
+						schema: openapi.path,
 						sidebar: { label: 'API reference', collapsed: true },
 					},
 				]),
