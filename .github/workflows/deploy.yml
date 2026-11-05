@@ -22,9 +22,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # "vendored" builds the API reference from src/content/openapi/kivo.yaml.
-      # Set the repository variable KIVO_OPENAPI_SOURCE to "remote" once kivodev/kivo is public.
-      KIVO_OPENAPI_SOURCE: ${{ vars.KIVO_OPENAPI_SOURCE || 'vendored' }}
+      # The commit kivodev/kivo sends with openapi-changed; other builds read main.
+      KIVO_OPENAPI_REF: ${{ github.event.client_payload.sha || 'main' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

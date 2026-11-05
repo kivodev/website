@@ -30,16 +30,11 @@ npm run preview    # serves dist/
 
 `public/CNAME` sets the domain to `kivo.watch`.
 
-## Keeping the API reference in sync
+## The API reference
 
-The spec comes from one of two places, chosen by `KIVO_OPENAPI_SOURCE`:
+`scripts/fetch-openapi.mjs` downloads `server/internal/api/openapi.yaml` from kivodev/kivo to `.openapi/kivo.yaml` before each build and dev server start. It reads `main`, or the commit in `KIVO_OPENAPI_REF` when set. The deploy sets that to the `sha` in the `openapi-changed` dispatch payload, so a spec change on kivodev/kivo's `main` rebuilds the site from that exact commit.
 
-- `vendored` (the default): `src/content/openapi/kivo.yaml`, a copy of `server/internal/api/openapi.yaml` from kivodev/kivo, committed here. Update it by copying the file over and committing.
-- `remote`: `scripts/fetch-openapi.mjs` downloads the spec from `https://raw.githubusercontent.com/kivodev/kivo/main/server/internal/api/openapi.yaml` before each build (it runs as `prebuild`). `KIVO_OPENAPI_URL` overrides the address.
-
-kivodev/kivo is private for now, so the deploy uses the vendored copy. Once it's public, set the repository variable `KIVO_OPENAPI_SOURCE` to `remote` (Settings, Secrets and variables, Actions, Variables). From then on each deploy fetches the current spec, and the main repo's `openapi-changed` dispatch rebuilds the site whenever the spec changes on `main`. The vendored copy can then be deleted.
-
-To try the remote spec locally: `KIVO_OPENAPI_SOURCE=remote npm run build`.
+starlight-openapi names each sidebar group after a spec tag. The script renames the tags to the display names in `openapi.tagNames` in `site.config.mjs`; a new tag shows up under its own name until it's added there.
 
 ## TODO
 
