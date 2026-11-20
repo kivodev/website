@@ -19,6 +19,7 @@ export default defineConfig({
 			head: [{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' } }],
 			social: [
 				{ icon: 'github', label: 'GitHub', href: links.github },
+				{ icon: 'discord', label: 'Discord', href: links.discord },
 			],
 			components: {
 				SocialIcons: './src/components/DocsHeaderLinks.astro',
