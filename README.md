@@ -5,8 +5,9 @@ The website and docs for [Kivo](https://github.com/kivodev/kivo), the open-sourc
 - `/` is the home page (`src/pages/index.astro`).
 - `/docs` is the Starlight docs (`src/content/docs/docs/`), including the API reference at `/docs/api`, generated from Kivo's OpenAPI spec by [starlight-openapi](https://github.com/HiDeoo/starlight-openapi).
 - `/blog` is the blog (`src/content/blog/`), with an RSS feed at `/blog/rss.xml`. Posts with `draft: true` show in `npm run dev` and are left out of builds.
+- `/privacy` and `/support` are plain Markdown pages in `src/pages/`, laid out by `src/layouts/Prose.astro`. App Store Connect links to both.
 
-Shared links (Discord, GitHub, Download) and the API spec setting live in `site.config.mjs`.
+Shared links (Discord, GitHub, Download, Support, Privacy) and the API spec setting live in `site.config.mjs`.
 
 ## Run locally
 
