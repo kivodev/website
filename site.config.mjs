@@ -3,8 +3,8 @@
 export const links = {
 	docs: '/docs/',
 	blog: '/blog/',
-	// TODO: replace with the real Discord invite before launch.
-	discord: 'https://discord.gg/REPLACE-ME',
+	support: '/support/',
+	privacy: '/privacy/',
 	github: 'https://github.com/kivodev/kivo',
 	download: 'https://github.com/kivodev/kivo/releases',
 };

@@ -6,7 +6,9 @@ The website and docs for [Kivo](https://github.com/kivodev/kivo), the open-sourc
 - `/docs` is the Starlight docs (`src/content/docs/docs/`), including the API reference at `/docs/api`, generated from Kivo's OpenAPI spec by [starlight-openapi](https://github.com/HiDeoo/starlight-openapi).
 - `/blog` is the blog (`src/content/blog/`), with an RSS feed at `/blog/rss.xml`. Posts with `draft: true` show in `npm run dev` and are left out of builds.
 
-Shared links (Discord, GitHub, Download) and the API spec setting live in `site.config.mjs`.
+- `/privacy` and `/support` are plain Markdown pages in `src/pages/`, laid out by `src/layouts/Prose.astro`. App Store Connect links to both.
+
+Shared links (GitHub, Download, Support, Privacy) and the API spec setting live in `site.config.mjs`.
 
 ## Run locally
 
@@ -34,8 +36,4 @@ npm run preview    # serves dist/
 `scripts/fetch-openapi.mjs` downloads `server/internal/api/openapi.yaml` from kivodev/kivo to `.openapi/kivo.yaml` before each build and dev server start. It reads `main`, or the commit in `KIVO_OPENAPI_REF` when set.
 
 starlight-openapi names each sidebar group after a spec tag. The script renames the tags to the display names in `openapi.tagNames` in `site.config.mjs`; a new tag shows up under its own name until it's added there.
-
-## TODO
-
-- Discord: `links.discord` in `site.config.mjs` is a placeholder. Replace it with the real invite.
 - Store links for the iPhone and iPad, Android TV and Samsung apps on `/docs/apps`.

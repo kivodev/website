@@ -1,0 +1,64 @@
+---
+// A plain text page, such as the privacy policy, written in Markdown under src/pages/.
+import Base from './Base.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={`${frontmatter.title} | Kivo`} description={frontmatter.description}>
+	<main class="wrap page">
+		<h1>{frontmatter.title}</h1>
+		{frontmatter.updated && <p class="updated">Last updated {frontmatter.updated}</p>}
+		<div class="prose"><slot /></div>
+	</main>
+</Base>
+
+<style>
+	.page {
+		max-width: 720px;
+		padding-top: 72px;
+		padding-bottom: 128px;
+	}
+	h1 {
+		margin: 0;
+		font-size: 44px;
+		line-height: 1.1;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		text-wrap: balance;
+	}
+	.updated {
+		margin: 12px 0 0;
+		font-size: 14px;
+		color: var(--muted);
+	}
+	.prose {
+		margin-top: 40px;
+		font-size: 17px;
+		line-height: 1.7;
+		color: var(--text-body);
+	}
+	.prose :global(a) {
+		color: var(--accent);
+	}
+	.prose :global(a:hover) {
+		color: var(--accent-hover);
+	}
+	.prose :global(h2) {
+		margin: 2em 0 0.5em;
+		font-size: 26px;
+		line-height: 1.25;
+		color: var(--text);
+	}
+	.prose :global(strong) {
+		color: var(--text-soft);
+	}
+	.prose :global(li + li) {
+		margin-top: 0.4em;
+	}
+	@media (max-width: 720px) {
+		h1 {
+			font-size: 34px;
+		}
+	}
+</style>
