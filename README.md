@@ -38,5 +38,4 @@ starlight-openapi names each sidebar group after a spec tag. The script renames 
 
 ## TODO
 
-- Discord: `links.discord` in `site.config.mjs` is a placeholder. Replace it with the real invite.
 - Store links for the iPhone and iPad, Android TV and Samsung apps on `/docs/apps`.
